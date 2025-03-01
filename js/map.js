@@ -16,6 +16,39 @@ function styleBoundary(zoom) {
     }
 }
 
+// Define a function to get the appropriate icon based on rank
+function getIcon(rank) {
+    let iconPath;
+    let iconSize = [35, 35];
+    let shadowSize = [40, 40];
+    let shadowAnchor = [10, 10];
+
+    if (rank === 1) {
+        iconPath = 'images/first-place.svg';
+    } else if (rank === 2) {
+        iconPath = 'images/second-place.svg';
+    } else if (rank === 3) {
+        iconPath = 'images/third-place.svg';
+    } else if (rank === 4) {
+        iconPath = 'images/fourth-place.svg';
+    } else if (rank === 5) {
+        iconPath = 'images/fifth-place.svg';
+    } else {
+        iconPath = 'images/other-stations.svg';
+        iconSize = [15, 15];
+    }
+
+    return L.icon({
+        iconUrl: iconPath,
+        iconSize: iconSize, // Adjust size
+        iconAnchor: [iconSize[0] / 2, iconSize[1] / 2], // Center the icon
+        popupAnchor: [0, -iconSize[1] / 2], // Position popup correctly
+        shadowUrl: 'images/icon-shadow.png', // Path to shadow image
+        shadowSize: shadowSize, // Size of the shadow
+        shadowAnchor: shadowAnchor // Anchor point of shadow
+    });
+}
+
 // Load GeoJSON for the boundary lines
 fetch('data/to-boundary-v3.geojson')
     .then(response => response.json())
@@ -36,3 +69,50 @@ fetch('data/to-boundary-v3.geojson')
         map.fitBounds(to_bdry.getBounds());
     })
     .catch(error => console.error('Error loading GeoJSON:', error));
+
+//add the subway stations
+// Define two separate layers
+let rankedStationsLayer = L.layerGroup();
+let otherStationsLayer = L.layerGroup();
+
+// Fetch and process the GeoJSON
+fetch('data/to-subway-stations.geojson')
+    .then(response => response.json())
+    .then(data => {
+        L.geoJSON(data, {
+            pointToLayer: function(feature, latlng) {
+                let rank = feature.properties.rank;
+                let marker = L.marker(latlng, { icon: getIcon(rank) });
+
+                // Add to the appropriate layer
+                if (rank >= 1 && rank <= 5) {
+                    rankedStationsLayer.addLayer(marker);
+                } else {
+                    otherStationsLayer.addLayer(marker);
+                }
+
+                return marker;
+            }
+        });
+
+        // Add ranked stations to the map immediately
+        rankedStationsLayer.addTo(map);
+    })
+    .catch(error => console.error('Error loading GeoJSON:', error));
+
+// Control visibility based on zoom level
+map.on("zoomend", function() {
+    if (map.getZoom() >= 14) {
+        // Show other-stations at zoom level 14 and higher
+        if (!map.hasLayer(otherStationsLayer)) {
+            map.addLayer(otherStationsLayer);
+        }
+    } else {
+        // Hide other-stations when zoomed out
+        if (map.hasLayer(otherStationsLayer)) {
+            map.removeLayer(otherStationsLayer);
+        }
+    }
+});
+
+

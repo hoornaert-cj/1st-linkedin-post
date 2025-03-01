@@ -49,6 +49,10 @@ a:hover {
     margin: 0 auto;
 }
 
+.icon-shadow {
+    filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
+}
+
 @keyframes zoomIn {
     from {
       transform: scale(0.8);
@@ -93,6 +97,16 @@ a:hover {
     a:visited {
         color:#8a2be2;
     }
+}
+
+/* Apply transition to all markers */
+.leaflet-marker-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Apply the hover effect to scale the icon */
+.leaflet-marker-icon:hover {
+    transform: scale(1.2);  /* Make the icon larger on hover */
 }
 
 /* .button-section {
