@@ -10,7 +10,7 @@ L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.pn
 // Ensure this function exists and returns style data based on zoom level
 function styleBoundary(zoom) {
     if (zoom < 12) {
-        return { color: "red", weight: 1.5, opacity: 0.5, lineJoin: 'round', lineCap: 'round' };
+        return { color: "#0A2342", weight: 1.5, opacity: 0.5, lineJoin: 'round', lineCap: 'round' };
     } else {
         return { color: "#292E1E", weight: 2.5, opacity: 0.85, dashArray: '10, 10' };
     }
