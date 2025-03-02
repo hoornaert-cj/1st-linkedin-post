@@ -13,7 +13,7 @@ body {
 
 h1 {
     font-family: "Cinzel", Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: #8a2be2;
+    color: #338855;
     text-align: center;
     font-size: 3.5rem;
     margin-bottom: 0;
@@ -264,15 +264,15 @@ a:hover {
 .footer {
     color: white;
     font-size: 1.25rem;
-    background-color: #6f1ab0;
+    background: linear-gradient(to bottom right, #4D9966, #338855, #1F7744, #0A6633, #005522);
     height: 4rem;
     text-align: center;
     display: grid;
     align-items: center;
+}
 
-    p{
-        margin-top: 0.5rem;
-    }
+.footer p {
+    margin-top: 0.5rem;
 }
 
 @media (max-width: 37.5rem) {

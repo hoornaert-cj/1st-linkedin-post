@@ -19,9 +19,7 @@ function styleBoundary(zoom) {
 // Define a function to get the appropriate icon based on rank
 function getIcon(rank) {
     let iconPath;
-    let iconSize = [35, 35];
-    let shadowSize = [40, 40];
-    let shadowAnchor = [10, 10];
+    let iconSize = [50, 50];
 
     if (rank === 1) {
         iconPath = 'images/first-place.svg';
@@ -35,7 +33,7 @@ function getIcon(rank) {
         iconPath = 'images/fifth-place.svg';
     } else {
         iconPath = 'images/other-stations.svg';
-        iconSize = [15, 15];
+        iconSize = [25, 25];
     }
 
     return L.icon({
@@ -43,9 +41,6 @@ function getIcon(rank) {
         iconSize: iconSize, // Adjust size
         iconAnchor: [iconSize[0] / 2, iconSize[1] / 2], // Center the icon
         popupAnchor: [0, -iconSize[1] / 2], // Position popup correctly
-        shadowUrl: 'images/icon-shadow.png', // Path to shadow image
-        shadowSize: shadowSize, // Size of the shadow
-        shadowAnchor: shadowAnchor // Anchor point of shadow
     });
 }
 
