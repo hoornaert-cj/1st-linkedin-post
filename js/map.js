@@ -10,7 +10,7 @@ L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.pn
 // Ensure this function exists and returns style data based on zoom level
 function styleBoundary(zoom) {
     if (zoom < 12) {
-        return { color: "#0A2342", weight: 1.5, opacity: 0.5, lineJoin: 'round', lineCap: 'round' };
+        return { color: "#0A2342", weight: 2, opacity: 0.5, lineJoin: 'round', lineCap: 'round' };
     } else {
         return { color: "#292E1E", weight: 2.5, opacity: 0.85, dashArray: '10, 10' };
     }
@@ -38,9 +38,9 @@ function getIcon(rank) {
 
     return L.icon({
         iconUrl: iconPath,
-        iconSize: iconSize, // Adjust size
-        iconAnchor: [iconSize[0] / 2, iconSize[1] / 2], // Center the icon
-        popupAnchor: [0, -iconSize[1] / 2], // Position popup correctly
+        iconSize: iconSize,
+        iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
+        popupAnchor: [0, -iconSize[1] / 2],
     });
 }
 
@@ -51,13 +51,13 @@ fetch('data/to-boundary-v3.geojson')
         // Add GeoJSON layer to the map
         var to_bdry = L.geoJSON(data, {
             style: function() {
-                return styleBoundary(map.getZoom()); // Apply style based on current zoom level
+                return styleBoundary(map.getZoom()); l
             }
         }).addTo(map);
 
         // Dynamically update the style when zoom changes
         map.on('zoomend', function() {
-            to_bdry.setStyle(styleBoundary(map.getZoom())); // Adjust style on zoom
+            to_bdry.setStyle(styleBoundary(map.getZoom()));
         });
 
         // Now fit the map bounds to the GeoJSON layer's bounds after it's added
@@ -79,7 +79,23 @@ fetch('data/to-subway-stations.geojson')
                 let rank = feature.properties.rank;
                 let marker = L.marker(latlng, { icon: getIcon(rank) });
 
-                // Add to the appropriate layer
+                var popupContent = `
+                <b>Station: ${feature.properties['stop_name']}</b><br>
+                <b>Area (m²): ${feature.properties['sum']}</b><br>
+                <b>Rank (out of 68): ${feature.properties['rank']}</b><br>`;
+
+                marker.bindPopup(popupContent, {
+                    offset: [0, -10]
+                });
+
+                marker.bindTooltip(feature.properties.stop_name, {
+                    permanent: true,
+                    direction: "bottom",
+                    className: "station-label hidden",
+                    offset: [0, 20]
+                });
+
+                // Add marker to the appropriate layer
                 if (rank >= 1 && rank <= 5) {
                     rankedStationsLayer.addLayer(marker);
                 } else {
@@ -95,19 +111,23 @@ fetch('data/to-subway-stations.geojson')
     })
     .catch(error => console.error('Error loading GeoJSON:', error));
 
-// Control visibility based on zoom level
 map.on("zoomend", function() {
-    if (map.getZoom() >= 14) {
-        // Show other-stations at zoom level 14 and higher
+    let currentZoom = map.getZoom();
+    let labels = document.querySelectorAll(".station-label");
+
+    if (currentZoom >= 14) {
         if (!map.hasLayer(otherStationsLayer)) {
             map.addLayer(otherStationsLayer);
         }
+        labels.forEach(label => {
+            label.classList.remove("hidden"); // 🔹 Show labels at zoom level 14+
+        });
     } else {
-        // Hide other-stations when zoomed out
         if (map.hasLayer(otherStationsLayer)) {
             map.removeLayer(otherStationsLayer);
         }
+        labels.forEach(label => {
+            label.classList.add("hidden"); // 🔹 Hide labels when zoomed out
+        });
     }
 });
-
-

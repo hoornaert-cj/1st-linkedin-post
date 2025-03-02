@@ -69,16 +69,21 @@ a:hover {
   }
 
 .leaflet-popup-content-wrapper {
-    background-color: #6f1ab0;
+    background: linear-gradient(to bottom right, #4D9966, #338855, #1F7744, #0A6633, #005522);
+    border: 0.5px solid #005522;
     color: white;
-    font-size: 1.3rem;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .leaflet-popup-content {
     max-width: 90%;
 }
 .leaflet-popup-tip {
-    background-color: #6f1ab0;
+    background-color: #005522;
 }
 
 .leaflet-popup-close-button span {
@@ -107,6 +112,47 @@ a:hover {
 /* Apply the hover effect to scale the icon */
 .leaflet-marker-icon:hover {
     transform: scale(1.2);  /* Make the icon larger on hover */
+}
+
+/* Label styling */
+.hidden {
+    display: none;
+}
+
+.station-label {
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    transform: translateX(-50%);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fcfcc0;
+    white-space: nowrap;
+    pointer-events: none;
+    text-align: center;
+
+    /* Black outline effect */
+    text-shadow:
+        -1.5px -1.5px 0 black,
+         1.5px -1.5px 0 black,
+        -1.5px  1.5px 0 black,
+         1.5px  1.5px 0 black,
+         4px  4px 6px rgba(0, 0, 0, 0.8);
+
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+
+    /* Smooth fade-in/out transition */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.station-label.visible {
+    opacity: 1;
 }
 
 /* .button-section {
