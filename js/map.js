@@ -80,10 +80,11 @@ fetch('data/to-subway-stations.geojson')
                 let marker = L.marker(latlng, { icon: getIcon(rank) });
 
                 var popupContent = `
-                <b>Station: ${feature.properties['stop_name']}</b><br>
-                <b>Area: ${Number(feature.properties['sum']).toLocaleString()}  m²</b><br>
-                <b>Hectares: ${Number(feature.properties['hectares']).toLocaleString()} </b><br>
-                <b>Rank (out of 68): ${feature.properties['rank']}</b><br>`;
+                    <img src="images/maple-leaf.svg" alt="Maple Leaf" style="display: block; margin: 0 auto; width: 2rem; height: 2rem;">
+                    <b>Station: ${feature.properties['stop_name']}</b><br>
+                    <b>Area: ${Number(feature.properties['sum']).toLocaleString()} m²</b><br>
+                    <b>Hectares: ${Number(feature.properties['hectares']).toLocaleString()}</b><br>
+                    <b>Rank (out of 66): ${feature.properties['rank']}</b><br>`;
 
                 marker.bindPopup(popupContent, {
                     offset: [0, -10]

@@ -71,12 +71,20 @@ a:hover {
 .leaflet-popup-content-wrapper {
     background: linear-gradient(to bottom right, #4D9966, #338855, #1F7744, #0A6633, #005522);
     border: 0.5px solid #005522;
-    color: white;
+    color: #fcfcc0;
     font-family: 'Open Sans', sans-serif;
     font-size: 1rem;
     border-radius: 8px;
     padding: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    /* text-transform: uppercase; */
+
+    text-shadow:
+        -0.75px -0.75px 0 black,
+        -0.75px -0.75px 0 black,
+        -0.75px -0.75px 0 black,
+         0.75px  0.75px 0 black,
+         1px  1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .leaflet-popup-content {
@@ -111,7 +119,7 @@ a:hover {
 
 /* Apply the hover effect to scale the icon */
 .leaflet-marker-icon:hover {
-    transform: scale(1.2);  /* Make the icon larger on hover */
+    filter: hue-rotate(90deg) saturate(2)drop-shadow(0px 0px 8px rgba(121, 121, 121, 0.8));
 }
 
 /* Label styling */
