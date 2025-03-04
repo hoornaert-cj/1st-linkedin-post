@@ -8,7 +8,11 @@ body {
 }
 
 .main-content {
-    flex: 1;
+    /* flex: 1; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
@@ -122,7 +126,7 @@ a:hover {
     filter: hue-rotate(90deg) saturate(2)drop-shadow(0px 0px 8px rgba(121, 121, 121, 0.8));
 }
 
-/* Label styling */
+
 .hidden {
     display: none;
 }
@@ -163,67 +167,6 @@ a:hover {
     opacity: 1;
 }
 
-/* .button-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 1.5rem;
-}
-
-.random-button-style,
-.reset-button-style {
-    background-color: #8a2be2;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: white;
-    font-size: 1.5rem;
-    padding: 0.5rem 1.25rem;
-    margin-top: 1.5rem;
-    border-width: 0;
-    border-style: none;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: all 0.5s;
-    width: 20rem;
-}
-
-/* Adding hover effect */
-.random-button-style:hover,
-.reset-button-style:hover {
-    background-color: #6f1ab0;
-    transform: scale(1.1);
-}
-
-.random-button-style span {
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-}
-
-.random-button-style span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-}
-
-.random-button-style:hover span {
-    padding-right: 25px;
-}
-
-.random-button-style:hover span:after {
-    opacity: 1;
-    right: 0;
-} */
-
-.wiki-icon {
-    width: 2.25rem;
-    height: 2.25rem;
-    vertical-align: middle;
-    margin-left: 4px;
-}
 
 #loading-overlay {
     position: fixed;
@@ -263,43 +206,6 @@ a:hover {
         margin: 0;
     }
 
-    /* .button-section {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        margin: 0 auto;
-        margin-bottom: 1.5rem;
-    }
-
-    .random-button-style,
-    .reset-button-style {
-        font-size: 1rem;
-        padding: 0.4rem 1rem;
-        margin-top: 1rem;
-        transition: none;
-    }
-
-    .random-button-style:hover,
-    .reset-button-style:hover {
-        transform: none;
-    }
-
-    .random-button-style span {
-        transition: none;
-    }
-
-    .random-button-style span:after {
-        transition: none;
-    }
-
-    .random-button-style:hover span {
-        padding-right: 0;
-    }
-
-    .random-button-style:hover span:after {
-        opacity: 0;
-        right: -20px;
-    } */
 
     .leaflet-popup-content-wrapper {
         font-size: 0.9rem;

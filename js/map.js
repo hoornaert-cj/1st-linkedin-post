@@ -44,6 +44,47 @@ function getIcon(rank) {
     });
 }
 
+function populateStationDropdown(stationsData) {
+    const dropdown = document.getElementById('station-dropdown');
+
+    stationsData.features.sort((a, b) =>
+        a.properties.stop_name.localeCompare(b.properties.stop_name)
+    );
+
+    stationsData.features.forEach((station, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.text = station.properties.stop_name;
+        dropdown.add(option);
+    });
+
+    // When user selects from dropdown
+    dropdown.addEventListener('change', function () {
+        const selectedIndex = dropdown.value;
+        if (selectedIndex !== "") {
+            const selectedStation = stationsData.features[selectedIndex];
+            zoomToStation(selectedStation);
+        }
+    });
+}
+
+function zoomToStation(station) {
+    const lat = station.geometry.coordinates[1];
+    const lng = station.geometry.coordinates[0];
+
+    map.setView([lat, lng], 15);
+
+    // Wait for the map to settle before opening the popup
+    setTimeout(() => {
+        map.eachLayer(layer => {
+            if (layer instanceof L.Marker && layer.getLatLng().lat === lat && layer.getLatLng().lng === lng) {
+                layer.openPopup();
+            }
+        });
+    }, 500);
+}
+
+
 // Load GeoJSON for the boundary lines
 fetch('data/to-boundary-v3.geojson')
     .then(response => response.json())
@@ -74,6 +115,7 @@ let otherStationsLayer = L.layerGroup();
 fetch('data/to-subway-stations.geojson')
     .then(response => response.json())
     .then(data => {
+        populateStationDropdown(data);
         L.geoJSON(data, {
             pointToLayer: function(feature, latlng) {
                 let rank = feature.properties.rank;
@@ -82,7 +124,6 @@ fetch('data/to-subway-stations.geojson')
                 var popupContent = `
                     <img src="images/maple-leaf.svg" alt="Maple Leaf" style="display: block; margin: 0 auto; width: 2rem; height: 2rem;">
                     <b>Station: ${feature.properties['stop_name']}</b><br>
-                    <b>Area: ${Number(feature.properties['sum']).toLocaleString()} m²</b><br>
                     <b>Hectares: ${Number(feature.properties['hectares']).toLocaleString()}</b><br>
                     <b>Rank (out of 66): ${feature.properties['rank']}</b><br>`;
 
@@ -122,14 +163,16 @@ map.on("zoomend", function() {
             map.addLayer(otherStationsLayer);
         }
         labels.forEach(label => {
-            label.classList.remove("hidden"); // 🔹 Show labels at zoom level 14+
+            label.classList.remove("hidden");
         });
     } else {
         if (map.hasLayer(otherStationsLayer)) {
             map.removeLayer(otherStationsLayer);
         }
         labels.forEach(label => {
-            label.classList.add("hidden"); // 🔹 Hide labels when zoomed out
+            label.classList.add("hidden");
         });
     }
 });
+
+
