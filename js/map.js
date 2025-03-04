@@ -106,8 +106,6 @@ fetch('data/to-boundary-v3.geojson')
     })
     .catch(error => console.error('Error loading GeoJSON:', error));
 
-//add the subway stations
-// Define two separate layers
 let rankedStationsLayer = L.layerGroup();
 let otherStationsLayer = L.layerGroup();
 
