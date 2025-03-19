@@ -126,7 +126,7 @@ fetch('data/to-subway-stations.geojson')
                     <b>Rank (out of 66): ${feature.properties['rank']}</b><br>`;
 
                 marker.bindPopup(popupContent, {
-                    offset: [0, -10]
+                    offset: [0, 0]
                 });
 
                 marker.bindTooltip(feature.properties.stop_name, {
